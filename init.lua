@@ -227,39 +227,6 @@ require('lazy').setup({
   --
   -- Use the `dependencies` key to specify the dependencies of a particular plugin
 
-  {
-    'ibhagwan/fzf-lua',
-    -- optional for icon support
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    config = function()
-      -- calling `setup` is optional for customization
-      require('fzf-lua').setup {}
-
-      local builtin = require 'fzf-lua'
-
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sf', builtin.files, { desc = '[S]earch [F]iles' })
-      vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Fzf' })
-      vim.keymap.set('n', '<leader>sw', builtin.grep_cword, { desc = '[S]earch current [W]ord' })
-      vim.keymap.set('n', '<leader>sr', builtin.registers, { desc = '[S]earch [R]egisters' })
-      vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
-      vim.keymap.set('n', '<leader>sd', builtin.diagnostics_document, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[S]earch [B]uffers' })
-      --    vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-      --    vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
-    end,
-    previewers = {
-      builtin = {
-        -- fzf-lua is very fast, but it really struggled to preview a couple files
-        -- in a repo. Those files were very big JavaScript files (1MB, minified, all on a single line).
-        -- It turns out it was Treesitter having trouble parsing the files.
-        -- With this change, the previewer will not add syntax highlighting to files larger than 100KB
-        -- (Yes, I know you shouldn't have 100KB minified files in source control.)
-        syntax_limit_b = 1024 * 100, -- 100KB
-      },
-    },
-  },
   -- LSP Plugins
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -339,7 +306,7 @@ require('lazy').setup({
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+          -- map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.
@@ -347,12 +314,6 @@ require('lazy').setup({
 
           -- nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           -- nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
-          map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-          map('<leader>gr', vim.lsp.buf.references, '[G]oto [R]eferences')
-          map('gI', vim.lsp.buf.implementation, '[G]oto [I]mplementation')
-          map('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
-          map('<leader>ds', vim.lsp.buf.document_symbol, '[D]ocument [S]ymbols')
-          map('<leader>ws', vim.lsp.buf.workspace_symbol, '[W]orkspace [S]ymbols') -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
           --
@@ -676,7 +637,7 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+      -- require('mini.surround').setup()
 
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
@@ -758,10 +719,3 @@ require('lazy').setup({
     },
   },
 })
-
--- Magnus part 2
-
-vim.keymap.set('n', '<c-P>', require('fzf-lua').files, { desc = 'Fzf Files' })
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
-vim.opt.cmdheight = 2
