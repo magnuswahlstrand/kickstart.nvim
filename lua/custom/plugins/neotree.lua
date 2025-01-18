@@ -1,6 +1,5 @@
 -- Copied from Joakim https://github.com/mrlorentx/.files/blob/main/nvim/lua/custom/plugins/neo-tree.lua
 return {
-
   'nvim-neo-tree/neo-tree.nvim',
   version = '*',
   dependencies = {
@@ -13,6 +12,8 @@ return {
     { '\\', ':Neotree reveal right<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
+
+    close_if_last_window = true,
     filesystem = {
       filtered_items = {
         visible = true,
