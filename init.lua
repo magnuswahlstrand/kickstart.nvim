@@ -111,6 +111,24 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', '<C-b>', '<C-a>')
 
+local opts = { noremap = true, silent = true }
+
+-- Move to previous/next
+vim.keymap.set('n', '<A-,>', '<Cmd>BufferPrevious<CR>', opts)
+vim.keymap.set('n', '<A-.>', '<Cmd>BufferNext<CR>', opts)
+vim.keymap.set('n', '<A-<>', '<Cmd>BufferMovePrevious<CR>', opts) -- Re-order to previous/next
+vim.keymap.set('n', '<A->>', '<Cmd>BufferMoveNext<CR>', opts)
+vim.keymap.set('n', '<A-1>', '<Cmd>BufferGoto 1<CR>', opts)
+vim.keymap.set('n', '<A-2>', '<Cmd>BufferGoto 2<CR>', opts)
+vim.keymap.set('n', '<A-3>', '<Cmd>BufferGoto 3<CR>', opts)
+vim.keymap.set('n', '<A-4>', '<Cmd>BufferGoto 4<CR>', opts)
+vim.keymap.set('n', '<A-5>', '<Cmd>BufferGoto 5<CR>', opts)
+vim.keymap.set('n', '<A-6>', '<Cmd>BufferGoto 6<CR>', opts)
+vim.keymap.set('n', '<A-7>', '<Cmd>BufferGoto 7<CR>', opts)
+vim.keymap.set('n', '<A-8>', '<Cmd>BufferGoto 8<CR>', opts)
+vim.keymap.set('n', '<A-9>', '<Cmd>BufferGoto 9<CR>', opts)
+vim.keymap.set('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
+vim.keymap.set('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
 --
 --
 -- [[ Basic Autocommands ]]
@@ -481,7 +499,8 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
