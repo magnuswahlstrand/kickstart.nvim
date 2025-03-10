@@ -60,5 +60,19 @@ return {
         map('n', '<leader>tD', gitsigns.toggle_deleted, { desc = '[T]oggle git show [D]eleted' })
       end,
     },
+    {
+      'aaronhallaert/advanced-git-search.nvim',
+      cmd = { 'AdvancedGitSearch' },
+      config = function()
+        require('advanced_git_search.fzf').setup {
+          -- Insert Config here
+        }
+      end,
+      dependencies = {
+        'yibhagwan/fzf-lua',
+        'tpope/vim-fugitive',
+        'tpope/vim-rhubarb',
+      },
+    },
   },
 }

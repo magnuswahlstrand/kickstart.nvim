@@ -105,11 +105,28 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- Added by magnus
 vim.opt.tabstop = 4
-vim.keymap.set('n', '[d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
+vim.keymap.set('n', ']q', function()
+  if vim.fn.getqflist({ idx = 0 }).idx == vim.fn.getqflist({ size = 0 }).size then
+    vim.cmd 'cfirst' -- Wrap to the first item
+  else
+    vim.cmd 'cnext'
+  end
+  vim.cmd 'normal! zz'
+end, { desc = 'Go to next quickfix item and wrap' })
+
+vim.keymap.set('n', '[q', function()
+  if vim.fn.getqflist({ idx = 0 }).idx == 1 then
+    vim.cmd 'clast' -- Wrap to the last item
+  else
+    vim.cmd 'cprev'
+  end
+  vim.cmd 'normal! zz'
+end, { desc = 'Go to previous quickfix item and wrap' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
-vim.keymap.set('n', '<C-b>', '<C-a>')
+-- vim.keymap.set('n', '<C-b>', '<C-a>')
 
 local opts = { noremap = true, silent = true }
 
@@ -170,6 +187,22 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   { import = 'custom/plugins' },
+  {
+    -- 'magnuswahlstrand/codetour.nvim',
+    -- version = 'v0.5.0', -- Pin to a specific version
+    name = 'codetour', -- Fake name for local module
+    dir = '~/repo/magnuswahlstrand/codetour.nvim',
+    config = function()
+      require('codetour').setup()
+    end,
+  },
+  -- {
+  --   'codetour', -- Fake name for local module
+  --   dir = vim.fn.expand '~/repo/magnuswahlstrand/codetour',
+  --   config = function()
+  --     require('codetour').setup()
+  --   end,
+  -- },
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -325,7 +358,7 @@ require('lazy').setup({
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
-          -- or a suggestion from your LSP for this to activate.
+          -- or a suggestion from your ,LSP for this to activate.
           -- map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
