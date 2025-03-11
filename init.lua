@@ -105,23 +105,37 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- Added by magnus
 vim.opt.tabstop = 4
-vim.keymap.set('n', ']q', function()
-  if vim.fn.getqflist({ idx = 0 }).idx == vim.fn.getqflist({ size = 0 }).size then
-    vim.cmd 'cfirst' -- Wrap to the first item
+QFNextCallback = function()
+  if vim.fn.getqflist({ idx = 0 }).idx == #vim.fn.getqflist() then
+    vim.cmd 'cfirst'
   else
     vim.cmd 'cnext'
   end
   vim.cmd 'normal! zz'
-end, { desc = 'Go to next quickfix item and wrap' })
+end
 
-vim.keymap.set('n', '[q', function()
+BackwardQFCallback = function()
   if vim.fn.getqflist({ idx = 0 }).idx == 1 then
-    vim.cmd 'clast' -- Wrap to the last item
+    vim.cmd 'clast'
   else
     vim.cmd 'cprev'
   end
   vim.cmd 'normal! zz'
-end, { desc = 'Go to previous quickfix item and wrap' })
+end
+
+_G.callQFNext = function()
+  vim.go.operatorfunc = 'v:lua.QFNextCallback'
+  return 'g@l'
+end
+
+_G.callQFPrev = function()
+  vim.go.operatorfunc = 'v:lua.BackwardQFCallback'
+  return 'g@l'
+end
+
+-- Keymaps
+vim.keymap.set('n', '[q', _G.callQFPrev, { expr = true, desc = 'Go to previous quickfix item and wrap' })
+vim.keymap.set('n', ']q', _G.callQFNext, { expr = true, desc = 'Go to next quickfix item and wrap' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
