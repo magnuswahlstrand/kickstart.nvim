@@ -27,6 +27,9 @@ return {
     vim.keymap.set('n', '<leader>D', builtin.lsp_typedefs, { desc = 'Type [D]efinition' })
     vim.keymap.set('n', '<leader>ds', builtin.lsp_document_symbols, { desc = '[D]ocument [S]ymbols' })
     vim.keymap.set('n', '<leader>ws', builtin.lsp_workspace_symbols, { desc = '[W]orkspace [S]ymbols' })
+    vim.keymap.set({ 'n', 'v', 'i' }, '<C-x><C-f>', function()
+      require('fzf-lua').complete_path()
+    end, { silent = true, desc = 'Fuzzy complete path' })
   end,
   previewers = {
     builtin = {

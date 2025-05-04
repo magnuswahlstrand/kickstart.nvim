@@ -4,16 +4,29 @@ return {
   lazy = false,
   version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
   opts = {
-    -- add any opts here
+    copilot = {
+      endpoint = 'https://api.githubcopilot.com',
+      model = 'claude-3.7-sonnet',
+      proxy = nil, -- [protocol://]host[:port] Use this proxy
+      allow_insecure = false, -- Allow insecure server connections
+      timeout = 30000, -- Timeout in milliseconds
+      temperature = 0,
+      max_tokens = 128000,
+    }, -- add any opts here
     -- for example
     -- provider = 'openai',
     -- openai = {
     --   endpoint = 'https://api.openai.com/v1',
     --   model = 'gpt-4o', -- your desired model (or use gpt-4o, etc.)
+    --   allow_insecure = false,
     --   timeout = 30000, -- timeout in milliseconds
     --   temperature = 0, -- adjust if needed
     --   max_tokens = 4096,
     -- },
+    behavior = {
+      use_cwd_as_project_root = true,
+      enable_cursor_planning_mode = true,
+    },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
   build = 'make',

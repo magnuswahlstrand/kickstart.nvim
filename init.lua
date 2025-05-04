@@ -105,6 +105,14 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Added by magnus
+vim.keymap.set('n', '<C-g>', function()
+  local file = vim.fn.expand '%' -- Get the current file name
+  local line = vim.fn.line '.' -- Get the current line number
+  local col = vim.fn.col '.' -- Get the current column number
+  vim.fn.system('cursor -g ' .. file .. ':' .. line .. ':' .. col) -- Run the command
+end, { desc = 'Jump to the cursor location' })
+
+vim.api.nvim_set_keymap('n', '<C-b>', '<C-a>', { noremap = true })
 vim.opt.tabstop = 4
 QFNextCallback = function()
   if vim.fn.getqflist({ idx = 0 }).idx == #vim.fn.getqflist() then
